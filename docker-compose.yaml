@@ -1,0 +1,22 @@
+version: '3'
+services:
+  discord-bot:
+    container_name: KumihoBot
+    build:
+      context: .
+      dockerfile: docker/dev.Dockerfile
+    environment:
+      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
+      - DJANGO_API_URL=${DJANGO_API_URL}
+    ports:
+      - 5000:5000
+    networks:
+      - routing
+    restart: always
+    tty: true
+    env_file:
+      - .env
+
+networks:
+  routing:
+    external: true
