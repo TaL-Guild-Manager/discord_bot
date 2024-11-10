@@ -6,14 +6,24 @@ from discord import Embed
 from contracts.constants import Constants
 
 def raids_serializer(raids):
-    raids_list = []
+    embed = Embed(title="Raids de guilde", color=0xEA9999)
 
     for raid in raids:
-        raid_name = f" - **{raid.get('label', 'Inconnu')}**"
+        boss_name = raid.get('label', 'Inconnu')
+        boss_loots = raid.get('loots', 'Inconnu')
 
-        raids_list.append(raid_name.strip())
+        embed.add_field(name="Boss", value=boss_name, inline=False)
 
-    return '\n'.join(raids_list)
+        for loot in boss_loots:
+            loot_label = loot.get('label', 'Inconnu')
+            loot_type = loot.get('loot_type', 'Inconnu')
+            loot_type_label = loot_type.get('label', 'Inconnu')
+
+            embed.add_field(name=loot_label, value=loot_type_label, inline=True)
+
+    embed.set_footer(text=Constants.EMBED_FOOTER)
+
+    return embed
 
 def boss_serializer(raid):
     raid_name = raid.get('label', 'Inconnu')
@@ -35,3 +45,9 @@ def boss_serializer(raid):
     embed.set_footer(text=Constants.EMBED_FOOTER)
 
     return embed
+
+def boss_sondage_serializer(raid):
+    print(raid)
+    boss_name = raid.get('label', 'Inconnu')
+
+    return boss_name
